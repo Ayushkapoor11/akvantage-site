@@ -2,7 +2,7 @@ import Nav from "@/components/Nav";
 import Hero from "@/components/Hero";
 import About from "@/components/About";
 import Services from "@/components/Services";
-import GalleryTeaser from "@/components/GalleryTeaser";
+import Gallery4 from "@/components/blocks/gallery4";
 import HowItWorks from "@/components/HowItWorks";
 import ContactCTA from "@/components/ContactCTA";
 import Footer from "@/components/Footer";
@@ -14,7 +14,7 @@ export default function Home() {
       <Hero />
       <About />
       <Services />
-      <GalleryTeaser />
+      <Gallery4 />
       <HowItWorks />
       <ContactCTA />
       <Footer />

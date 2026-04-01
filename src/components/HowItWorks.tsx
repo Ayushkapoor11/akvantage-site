@@ -1,4 +1,5 @@
 import FadeIn from "./FadeIn";
+import { NeonButton } from "@/components/ui/neon-button";
 
 const steps = [
   {
@@ -75,12 +76,9 @@ export default function HowItWorks() {
           <p className="text-mid mb-6">
             Ready to get started? Let's talk about your project.
           </p>
-          <a
-            href="#contact"
-            className="inline-block px-8 py-4 bg-fire text-ink font-semibold rounded text-base hover:bg-orange-600 transition-all hover:-translate-y-1 shadow-lg hover:shadow-fire/20"
-          >
+          <NeonButton href="#contact" variant="solid">
             Schedule Your Call
-          </a>
+          </NeonButton>
         </FadeIn>
       </div>
     </section>

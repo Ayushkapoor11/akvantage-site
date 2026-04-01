@@ -1,5 +1,5 @@
-import Link from "next/link";
 import FadeIn from "./FadeIn";
+import { NeonButton } from "@/components/ui/neon-button";
 
 const packages = [
   {
@@ -117,16 +117,13 @@ export default function Services() {
                 </ul>
 
                 {/* CTA Button */}
-                <Link
+                <NeonButton
                   href="#contact"
-                  className={`w-full py-3 font-semibold rounded text-center transition-all inline-block ${
-                    featured(idx)
-                      ? "bg-fire text-ink hover:bg-orange-600 hover:-translate-y-1"
-                      : "bg-transparent border-2 border-cream text-cream hover:border-fire hover:text-fire hover:bg-fire/5"
-                  }`}
+                  variant={featured(idx) ? "solid" : "outline"}
+                  className="w-full justify-center"
                 >
                   Get Started
-                </Link>
+                </NeonButton>
               </div>
             </FadeIn>
           ))}
