@@ -66,7 +66,7 @@ export default function Nav() {
               href="#contact"
               className="px-6 py-2 bg-fire text-ink font-semibold rounded text-sm hover:bg-orange-600 transition-colors"
             >
-              Book a Call
+              Contact Us
             </Link>
             {/* Hamburger - mobile only */}
             <button
