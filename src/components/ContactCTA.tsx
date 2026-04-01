@@ -20,7 +20,7 @@ export default function ContactCTA() {
           {/* Left Column - Direct CTAs */}
           <FadeIn>
             <div className="space-y-8">
-              <h3 className="font-fraunces italic font-black text-2xl text-cream">
+              <h3 className="font-fraunces italic font-black text-xl text-cream">
                 Get in Touch
               </h3>
 

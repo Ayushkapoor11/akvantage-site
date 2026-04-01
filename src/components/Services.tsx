@@ -88,7 +88,7 @@ export default function Services() {
                   </div>
                 )}
 
-                <h3 className="font-fraunces italic font-black text-2xl text-cream mb-2">
+                <h3 className="font-fraunces italic font-black text-xl text-cream mb-2">
                   {pkg.name}
                 </h3>
                 <div className="mb-4">

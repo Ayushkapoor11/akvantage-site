@@ -39,7 +39,7 @@ export default function About() {
                     <span className="text-fire text-xl font-bold">1</span>
                   </div>
                   <div>
-                    <h3 className="font-fraunces italic font-black text-cream text-lg mb-2">
+                    <h3 className="font-fraunces italic font-black text-cream text-xl mb-2">
                       Strategy First
                     </h3>
                     <p className="text-muted text-sm">
@@ -57,7 +57,7 @@ export default function About() {
                     <span className="text-fire text-xl font-bold">2</span>
                   </div>
                   <div>
-                    <h3 className="font-fraunces italic font-black text-cream text-lg mb-2">
+                    <h3 className="font-fraunces italic font-black text-cream text-xl mb-2">
                       Built for Real Business
                     </h3>
                     <p className="text-muted text-sm">
@@ -75,7 +75,7 @@ export default function About() {
                     <span className="text-fire text-xl font-bold">3</span>
                   </div>
                   <div>
-                    <h3 className="font-fraunces italic font-black text-cream text-lg mb-2">
+                    <h3 className="font-fraunces italic font-black text-cream text-xl mb-2">
                       Local Focus
                     </h3>
                     <p className="text-muted text-sm">

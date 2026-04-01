@@ -9,7 +9,7 @@ export default function GalleryTeaser() {
     >
       <div className="max-w-4xl mx-auto text-center">
         <FadeIn>
-          <h2 className="text-3xl sm:text-4xl font-fraunces italic font-black text-cream mb-4">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-fraunces italic font-black text-cream mb-4">
             See Example Designs
           </h2>
           <p className="text-lg text-mid mb-10">

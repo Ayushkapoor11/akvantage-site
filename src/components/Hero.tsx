@@ -32,7 +32,7 @@ export default function Hero() {
 
         {/* Main Headline */}
         <h1
-          className={`text-4xl sm:text-5xl lg:text-6xl font-fraunces font-black italic leading-tight mb-6 transition-all duration-700 ${
+          className={`text-4xl sm:text-5xl lg:text-6xl font-fraunces italic font-black leading-tight mb-6 transition-all duration-700 ${
             mounted ? "reveal reveal-delay-2" : "opacity-0"
           }`}
         >

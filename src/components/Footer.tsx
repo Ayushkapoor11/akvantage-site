@@ -21,7 +21,7 @@ export default function Footer() {
 
           {/* Column 2 - Quick Links */}
           <div>
-            <h4 className="font-semibold text-cream mb-4">Quick Links</h4>
+            <h4 className="font-fraunces italic font-black text-cream text-lg mb-4">Quick Links</h4>
             <ul className="space-y-2">
               <li>
                 <Link
@@ -60,7 +60,7 @@ export default function Footer() {
 
           {/* Column 3 - Contact */}
           <div>
-            <h4 className="font-semibold text-cream mb-4">Get in Touch</h4>
+            <h4 className="font-fraunces italic font-black text-cream text-lg mb-4">Get in Touch</h4>
             <ul className="space-y-2">
               <li>
                 <a
