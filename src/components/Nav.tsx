@@ -26,7 +26,7 @@ export default function Nav() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
         {/* Logo */}
         <Link href="#" className="flex items-center gap-1 text-2xl font-bold">
-          <span className="text-cream">AK</span>
+          <span className="text-cream">AKVantage</span>
           <span className="text-fire font-fraunces italic">.</span>
         </Link>
 
