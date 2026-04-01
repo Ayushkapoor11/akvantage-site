@@ -17,7 +17,7 @@ export default function GalleryTeaser() {
             business.
           </p>
           <Link
-            href="/"
+            href="/gallery.html"
             className="inline-block px-8 py-4 bg-fire text-ink font-semibold rounded text-base hover:bg-orange-600 transition-all hover:-translate-y-1 shadow-lg hover:shadow-fire/20"
           >
             View Gallery →
