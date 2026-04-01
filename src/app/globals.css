@@ -1,0 +1,221 @@
+@import "tailwindcss";
+
+/* ─── Tailwind v4 Theme Tokens ──────────────────────────── */
+@theme {
+  /* Colors */
+  --color-ink: #04040b;
+  --color-ink-2: #0b0b14;
+  --color-ink-3: #12121e;
+  --color-ink-4: #1a1a2a;
+  --color-fire: #ff4500;
+  --color-fire-dim: rgba(255, 69, 0, 0.12);
+  --color-fire-br: rgba(255, 69, 0, 0.28);
+  --color-gold: #e8b84b;
+  --color-cream: #f0efeb;
+  --color-muted: #5c5c78;
+  --color-mid: #9898b0;
+  --color-border: rgba(255, 255, 255, 0.06);
+  --color-border-2: rgba(255, 255, 255, 0.1);
+
+  /* Fonts */
+  --font-fraunces: var(--font-fraunces-var), serif;
+  --font-outfit: var(--font-outfit-var), sans-serif;
+  --font-bebas: var(--font-bebas-var), sans-serif;
+
+  /* Animations */
+  --animate-fade-up: fade-up 0.8s ease-out forwards;
+  --animate-pulse-slow: pulse-slow 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+
+  @keyframes fade-up {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes pulse-slow {
+    0%, 100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.5;
+    }
+  }
+}
+
+/* ─── Base Styles ───────────────────────────────────────── */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-ink);
+  background-image: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0.055) 1px,
+    transparent 1px
+  );
+  background-size: 28px 28px;
+  color: var(--color-cream);
+  font-family: var(--font-outfit);
+  position: relative;
+}
+
+/* ─── Heading Fonts ─────────────────────────────────────── */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-fraunces);
+  font-weight: 800;
+  font-style: italic;
+}
+
+/* ─── Fire Gradient Overlay ─────────────────────────────── */
+.fire-gradient-overlay {
+  position: relative;
+}
+.fire-gradient-overlay::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 69, 0, 0.08) 0%,
+    transparent 50%,
+    rgba(255, 69, 0, 0.04) 100%
+  );
+  pointer-events: none;
+}
+
+/* ─── Reveal Animations ─────────────────────────────────── */
+.reveal {
+  animation: fade-up 0.8s ease-out forwards;
+}
+.reveal-delay-1 { animation-delay: 0.1s; }
+.reveal-delay-2 { animation-delay: 0.2s; }
+.reveal-delay-3 { animation-delay: 0.3s; }
+.reveal-delay-4 { animation-delay: 0.4s; }
+.reveal-delay-5 { animation-delay: 0.5s; }
+
+/* ─── Scroll Fade-In ────────────────────────────────────── */
+.fade-in {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+.fade-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ─── Nav Scroll State ──────────────────────────────────── */
+nav {
+  transition: background-color 0.3s ease-out, backdrop-filter 0.3s ease-out;
+}
+nav.scrolled {
+  background-color: rgba(4, 4, 11, 0.8);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+/* ─── Blinking Dot ──────────────────────────────────────── */
+@keyframes blink {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0.3; }
+}
+.blink {
+  animation: blink 2s infinite;
+}
+
+/* ─── Section Label ─────────────────────────────────────── */
+.section-label {
+  font-family: var(--font-outfit);
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--color-fire);
+}
+
+/* ─── Gradient Rule ─────────────────────────────────────── */
+.gradient-rule {
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 69, 0, 0) 0%,
+    rgba(255, 69, 0, 0.6) 50%,
+    rgba(255, 69, 0, 0) 100%
+  );
+}
+
+/* ─── Buttons ───────────────────────────────────────────── */
+.btn {
+  display: inline-block;
+  padding: 12px 24px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  border: none;
+  text-align: center;
+  text-decoration: none;
+}
+.btn-primary {
+  background-color: var(--color-fire);
+  color: var(--color-ink);
+}
+.btn-primary:hover {
+  background-color: #ff6b2f;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(255, 69, 0, 0.2);
+}
+.btn-secondary {
+  background-color: transparent;
+  color: var(--color-cream);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+}
+.btn-secondary:hover {
+  border-color: var(--color-fire);
+  color: var(--color-fire);
+  background-color: rgba(255, 69, 0, 0.08);
+}
+
+/* ─── Form Inputs ───────────────────────────────────────── */
+input, textarea {
+  background-color: var(--color-ink-3);
+  color: var(--color-cream);
+  border: 1px solid var(--color-border-2);
+  border-radius: 4px;
+  padding: 10px 12px;
+  font-family: var(--font-outfit);
+  font-size: 0.95rem;
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+input::placeholder, textarea::placeholder {
+  color: var(--color-muted);
+}
+input:focus, textarea:focus {
+  outline: none;
+  border-color: var(--color-fire);
+  background-color: var(--color-ink-4);
+  box-shadow: 0 0 0 3px rgba(255, 69, 0, 0.1);
+}
+
+/* ─── Link Styling ──────────────────────────────────────── */
+a {
+  color: inherit;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+/* ─── Responsive ────────────────────────────────────────── */
+@media (max-width: 768px) {
+  body {
+    background-size: 20px 20px;
+  }
+  h1 { font-size: 2rem; }
+  h2 { font-size: 1.5rem; }
+}
