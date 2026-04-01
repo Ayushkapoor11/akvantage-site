@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AKVantage — Preview Redesign</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,700;0,900;1,700;1,900&family=Outfit:wght@300;400;500;600;700&family=Bebas+Neue&display=swap" rel="stylesheet" />
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            ink: '#04040b',
+            fire: '#ff4500',
+            gold: '#e8b84b',
+            cream: '#f0efeb',
+            mid: '#9a9a8e',
+            muted: '#5a5a52',
+          },
+          fontFamily: {
+            fraunces: ['Fraunces', 'serif'],
+            outfit: ['Outfit', 'sans-serif'],
+            bebas: ['"Bebas Neue"', 'sans-serif'],
+          },
+        }
+      }
+    }
+  </script>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { background: #04040b; color: #f0efeb; font-family: 'Outfit', sans-serif; }
+
+    /* HERO BRAND NAME — fills viewport width */
+    .brand-display {
+      font-family: 'Fraunces', serif;
+      font-style: italic;
+      font-weight: 900;
+      font-size: clamp(52px, 15.5vw, 240px);
+      line-height: 0.88;
+      letter-spacing: -0.02em;
+      color: #f0efeb;
+    }
+
+    /* Section dividers */
+    .section-rule {
+      border: none;
+      border-top: 1px solid rgba(240,239,235,0.12);
+    }
+    .section-rule-dashed {
+      border: none;
+      border-top: 1px dashed rgba(240,239,235,0.18);
+    }
+
+    /* Template scroll strip */
+    .template-strip {
+      display: flex;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      gap: 0;
+    }
+    .template-strip::-webkit-scrollbar { display: none; }
+    .template-card {
+      flex: 0 0 260px;
+      scroll-snap-align: start;
+      border-right: 1px dashed rgba(240,239,235,0.18);
+      padding: 20px 24px;
+      transition: background 0.2s;
+      cursor: pointer;
+      text-decoration: none;
+    }
+    .template-card:hover { background: rgba(255,69,0,0.05); }
+    .template-card:first-child { border-left: none; }
+
+    /* Marquee for stats row */
+    @keyframes marquee {
+      0%   { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+    .marquee-inner { animation: marquee 18s linear infinite; white-space: nowrap; }
+
+    /* Nav */
+    .nav-sticky {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 40px;
+      background: rgba(4,4,11,0.88);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(240,239,235,0.06);
+    }
+
+    /* CTA buttons */
+    .btn-primary {
+      background: #ff4500;
+      color: #04040b;
+      font-weight: 700;
+      font-family: 'Outfit', sans-serif;
+      padding: 14px 32px;
+      border-radius: 2px;
+      transition: all 0.2s;
+      display: inline-block;
+      text-decoration: none;
+      font-size: 14px;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+    .btn-primary:hover { background: #e03d00; transform: translateY(-1px); }
+
+    .btn-ghost {
+      border: 1px solid rgba(240,239,235,0.25);
+      color: #f0efeb;
+      font-weight: 500;
+      font-family: 'Outfit', sans-serif;
+      padding: 13px 32px;
+      border-radius: 2px;
+      transition: all 0.2s;
+      display: inline-block;
+      text-decoration: none;
+      font-size: 14px;
+      letter-spacing: 0.04em;
+    }
+    .btn-ghost:hover { border-color: #ff4500; color: #ff4500; }
+
+    /* Package card */
+    .pkg-card {
+      border: 1px solid rgba(240,239,235,0.10);
+      padding: 40px 32px;
+      transition: border-color 0.2s;
+    }
+    .pkg-card:hover { border-color: rgba(255,69,0,0.30); }
+    .pkg-card.featured {
+      border-color: rgba(255,69,0,0.40);
+      background: rgba(255,69,0,0.04);
+    }
+
+    /* Section label */
+    .section-label {
+      font-family: 'Outfit', sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(240,239,235,0.4);
+    }
+
+    /* Pull quote */
+    .pull-quote {
+      font-family: 'Fraunces', serif;
+      font-style: italic;
+      font-weight: 700;
+    }
+
+    /* Step number */
+    .step-num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(72px, 8vw, 120px);
+      color: rgba(255,69,0,0.15);
+      line-height: 1;
+    }
+
+    /* Gradient tile for templates */
+    .gradient-smoke   { background: linear-gradient(135deg, #1c1c1c, #2d2d2d); }
+    .gradient-service { background: linear-gradient(135deg, #0c1a2e, #04040b); }
+    .gradient-brand   { background: linear-gradient(135deg, #1a0a2e, #04040b); }
+    .gradient-chinese { background: linear-gradient(135deg, #2e0a0a, #04040b); }
+    .gradient-agency  { background: linear-gradient(135deg, #0a2e1a, #04040b); }
+    .gradient-ecomm   { background: linear-gradient(135deg, #2e1e0a, #04040b); }
+    .gradient-resto   { background: linear-gradient(135deg, #2e1000, #04040b); }
+    .gradient-fitness { background: linear-gradient(135deg, #0e2e0a, #04040b); }
+
+    @media (max-width: 768px) {
+      .nav-sticky { padding: 16px 20px; }
+      .brand-display { font-size: clamp(48px, 17vw, 120px); }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════════ NAV ═══════════════════ -->
+<nav class="nav-sticky">
+  <a href="#" style="font-family:'Fraunces',serif; font-style:italic; font-weight:900; font-size:22px; color:#f0efeb; text-decoration:none; letter-spacing:-0.01em;">
+    AKVantage<span style="color:#ff4500;">.</span>
+  </a>
+  <div style="display:flex; align-items:center; gap:32px;">
+    <div style="display:flex; gap:28px; align-items:center;">
+      <a href="#about" style="font-size:13px; color:rgba(240,239,235,0.55); text-decoration:none; letter-spacing:0.04em; font-weight:500; transition:color .2s;" onmouseover="this.style.color='#f0efeb'" onmouseout="this.style.color='rgba(240,239,235,0.55)'">About</a>
+      <a href="#services" style="font-size:13px; color:rgba(240,239,235,0.55); text-decoration:none; letter-spacing:0.04em; font-weight:500;" onmouseover="this.style.color='#f0efeb'" onmouseout="this.style.color='rgba(240,239,235,0.55)'">Services</a>
+      <a href="#work" style="font-size:13px; color:rgba(240,239,235,0.55); text-decoration:none; letter-spacing:0.04em; font-weight:500;" onmouseover="this.style.color='#f0efeb'" onmouseout="this.style.color='rgba(240,239,235,0.55)'">Gallery</a>
+      <a href="#process" style="font-size:13px; color:rgba(240,239,235,0.55); text-decoration:none; letter-spacing:0.04em; font-weight:500;" onmouseover="this.style.color='#f0efeb'" onmouseout="this.style.color='rgba(240,239,235,0.55)'">Process</a>
+    </div>
+    <a href="#contact" class="btn-primary">Book a Call</a>
+  </div>
+</nav>
+
+
+<!-- ═══════════════════ HERO ═══════════════════ -->
+<section style="min-height: 100vh; display:flex; flex-direction:column; justify-content:center; padding: 140px 40px 60px;">
+
+  <!-- Eyebrow -->
+  <div style="display:flex; align-items:center; gap:10px; margin-bottom:32px;">
+    <span style="display:inline-block; width:6px; height:6px; border-radius:50%; background:#ff4500;"></span>
+    <span class="section-label">Mesa, AZ &nbsp;/&nbsp; Web Design &amp; Development</span>
+  </div>
+
+  <!-- Brand name — viewport-filling -->
+  <div class="brand-display" style="margin-bottom: 24px;">
+    AKVantage<span style="color:#ff4500;">.</span>
+  </div>
+
+  <!-- Sub-headline -->
+  <div style="display:flex; flex-direction:column; gap:16px; max-width:700px; margin-bottom:48px;">
+    <p style="font-family:'Fraunces',serif; font-style:italic; font-weight:700; font-size:clamp(22px,3vw,40px); color:#ff4500; line-height:1.2;">
+      Websites that get customers.
+    </p>
+    <p style="font-size:16px; color:rgba(240,239,235,0.55); line-height:1.6; max-width:480px; font-weight:300;">
+      Strategic design and development for local businesses that want to thrive online. No fluff—just results.
+    </p>
+  </div>
+
+  <!-- CTAs -->
+  <div style="display:flex; gap:16px; flex-wrap:wrap; margin-bottom:80px;">
+    <a href="#contact" class="btn-primary">Book a Free Consultation</a>
+    <a href="#work" class="btn-ghost">See Our Work &rarr;</a>
+  </div>
+
+  <!-- Stats row -->
+  <hr class="section-rule" style="margin-bottom:40px;" />
+  <div style="display:flex; gap:60px; flex-wrap:wrap;">
+    <div>
+      <div style="font-family:'Bebas Neue',sans-serif; font-size:42px; color:#e8b84b; line-height:1;">8+</div>
+      <div style="font-size:12px; color:rgba(240,239,235,0.4); letter-spacing:0.1em; text-transform:uppercase; margin-top:4px;">Templates Ready</div>
+    </div>
+    <div>
+      <div style="font-family:'Bebas Neue',sans-serif; font-size:42px; color:#e8b84b; line-height:1;">2–3 wk</div>
+      <div style="font-size:12px; color:rgba(240,239,235,0.4); letter-spacing:0.1em; text-transform:uppercase; margin-top:4px;">Launch Time</div>
+    </div>
+    <div>
+      <div style="font-family:'Bebas Neue',sans-serif; font-size:42px; color:#e8b84b; line-height:1;">Mesa, AZ</div>
+      <div style="font-size:12px; color:rgba(240,239,235,0.4); letter-spacing:0.1em; text-transform:uppercase; margin-top:4px;">Local &amp; Proud</div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════ TEMPLATE STRIP ═══════════════════ -->
+<section id="work">
+  <hr class="section-rule-dashed" />
+  <div style="display:flex; align-items:center; justify-content:space-between; padding:16px 40px; border-bottom:1px dashed rgba(240,239,235,0.18);">
+    <span class="section-label">Selected Work — 8 Industry Templates</span>
+    <a href="/gallery.html" style="font-size:12px; color:#ff4500; text-decoration:none; letter-spacing:0.06em; font-weight:600; text-transform:uppercase;">View Full Gallery &rarr;</a>
+  </div>
+
+  <div class="template-strip">
+    <!-- 1 -->
+    <a class="template-card" href="/templates/1-smoke-shop.html" target="_blank">
+      <div class="gradient-smoke" style="width:100%; height:120px; border-radius:2px; display:flex;align-items:center;justify-content:center; font-size:32px; margin-bottom:16px;">🔥</div>
+      <div style="font-size:11px; color:#ff4500; font-weight:600; letter-spacing:0.14em; text-transform:uppercase; margin-bottom:6px;">Retail</div>
+      <div style="font-family:'Fraunces',serif; font-style:italic; font-weight:700; font-size:18px; color:#f0efeb; margin-bottom:4px;">Smoke Shop</div>
+      <div style="font-size:12px; color:rgba(240,239,235,0.4);">Bold, edgy for tobacco &amp; vape</div>
+    </a>
+    <!-- 2 -->
+    <a class="template-card" href="/templates/2-local-service.html" target="_blank">
+      <div class="gradient-service" style="width:100%; height:120px; border-radius:2px; display:flex;align-items:center;justify-content:center; font-size:32px; margin-bottom:16px;">🔧</div>
+      <div style="font-size:11px; color:#ff4500; font-weight:600; letter-spacing:0.14em; text-transform:uppercase; margin-bottom:6px;">Home Services</div>
+      <div style="font-family:'Fraunces',serif; font-style:italic; font-weight:700; font-size:18px; color:#f0efeb; margin-bottom:4px;">Local Service</div>
+      <div style="font-size:12px; color:rgba(240,239,235,0.4);">Clean trust-building layout</div>
+    </a>
+    <!-- 3 -->
+    <a class="template-card" href="/templates/3-personal-brand.html" target="_blank">
+      <div class="gradient-brand" style="width:100%; height:120px; border-radius:2px; display:flex;align-items:center;justify-content:center; font-size:32px; margin-bottom:16px;">✨</div>
+      <div style="font-size:11px; color:#ff4500; font-weight:600; letter-spacing:0.14em; text-transform:uppercase; margin-bottom:6px;">Coaching</div>
+      <div style="font-family:'Fraunces',serif; font-style:italic; font-weight:700; font-size:18px; color:#f0efeb; margin-bottom:4px;">Personal Brand</div>
+      <div style="font-size:12px; color:rgba(240,239,235,0.4);">Sleek portfolio for coaches</div>
+    </a>
+    <!-- 4 -->
+    <a class="template-card" href="/templates/4-chinese-restaurant.html" target="_blank">
+      <div class="gradient-chinese" style="width:100%; height:120px; border-radius:2px; display:flex;align-items:center;justify-content:center; font-size:32px; margin-bottom:16px;">🥢</div>
+      <div style="font-size:11px; color:#ff4500; font-weight:600; letter-spacing:0.14em; text-transform:uppercase; margin-bottom:6px;">Restaurant</div>
+      <div style="font-family:'Fraunces',serif; font-style:italic; font-weight:700; font-size:18px; color:#f0efeb; margin-bottom:4px;">Chinese Restaurant</div>
+      <div style="font-size:12px; color:rgba(240,239,235,0.4);">Rich, appetizing layout</div>
+    </a>
+    <!-- 5 -->
+    <a class="template-card" href="/templates/5-agency-portfolio.html" target="_blank">
+      <div class="gradient-agency" style="width:100%; height:120px; border-radius:2px; display:flex;align-items:center;justify-content:center; font-size:32px; margin-bottom:16px;">🎨</div>
+      <div style="font-size:11px; color:#ff4500; font-weight:600; letter-spacing:0.14em; text-transform:uppercase; margin-bottom:6px;">Creative</div>
+      <div style="font-family:'Fraunces',serif; font-style:italic; font-weight:700; font-size:18px; color:#f0efeb; margin-bottom:4px;">Agency Portfolio</div>
+      <div style="font-size:12px; color:rgba(240,239,235,0.4);">Modern creative showcase</div>
+    </a>
+    <!-- 6 -->
+    <a class="template-card" href="/templates/6-ecommerce.html" target="_blank">
+      <div class="gradient-ecomm" style="width:100%; height:120px; border-radius:2px; display:flex;align-items:center;justify-content:center; font-size:32px; margin-bottom:16px;">🛍️</div>
+      <div style="font-size:11px; color:#ff4500; font-weight:600; letter-spacing:0.14em; text-transform:uppercase; margin-bottom:6px;">E-Commerce</div>
+      <div style="font-family:'Fraunces',serif; font-style:italic; font-weight:700; font-size:18px; color:#f0efeb; margin-bottom:4px;">Online Store</div>
+      <div style="font-size:12px; color:rgba(240,239,235,0.4);">Conversion-focused storefront</div>
+    </a>
+    <!-- 7 -->
+    <a class="template-card" href="/templates/7-restaurant.html" target="_blank">
+      <div class="gradient-resto" style="width:100%; height:120px; border-radius:2px; display:flex;align-items:center;justify-content:center; font-size:32px; margin-bottom:16px;">🍽️</div>
+      <div style="font-size:11px; color:#ff4500; font-weight:600; letter-spacing:0.14em; text-transform:uppercase; margin-bottom:6px;">Hospitality</div>
+      <div style="font-family:'Fraunces',serif; font-style:italic; font-weight:700; font-size:18px; color:#f0efeb; margin-bottom:4px;">Restaurant</div>
+      <div style="font-size:12px; color:rgba(240,239,235,0.4);">Inviting food &amp; dining design</div>
+    </a>
+    <!-- 8 -->
+    <a class="template-card" href="/templates/8-fitness-studio.html" target="_blank">
+      <div class="gradient-fitness" style="width:100%; height:120px; border-radius:2px; display:flex;align-items:center;justify-content:center; font-size:32px; margin-bottom:16px;">💪</div>
+      <div style="font-size:11px; color:#ff4500; font-weight:600; letter-spacing:0.14em; text-transform:uppercase; margin-bottom:6px;">Health &amp; Fitness</div>
+      <div style="font-family:'Fraunces',serif; font-style:italic; font-weight:700; font-size:18px; color:#f0efeb; margin-bottom:4px;">Fitness Studio</div>
+      <div style="font-size:12px; color:rgba(240,239,235,0.4);">High-energy gym &amp; trainer site</div>
+    </a>
+  </div>
+  <hr class="section-rule-dashed" />
+</section>
+
+
+<!-- ═══════════════════ ABOUT ═══════════════════ -->
+<section id="about" style="padding: 100px 40px;">
+  <div style="max-width:1200px; margin:0 auto;">
+
+    <!-- Label row -->
+    <div style="display:flex; align-items:center; gap:16px; margin-bottom:64px;">
+      <span class="section-label">About</span>
+      <hr class="section-rule" style="flex:1;" />
+    </div>
+
+    <!-- Two-column split -->
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:80px; align-items:start;">
+
+      <!-- Left: Pull quote -->
+      <div>
+        <p class="pull-quote" style="font-size:clamp(22px,2.8vw,38px); color:#f0efeb; line-height:1.25; margin-bottom:32px;">
+          "We don't build websites to look pretty—we build them to bring people through your door."
+        </p>
+        <p style="font-size:15px; color:rgba(240,239,235,0.5); line-height:1.7; font-weight:300; max-width:420px;">
+          Every design decision, every feature, every line of code serves one purpose: getting your customers to take action. We understand the pressures of running a local business.
+        </p>
+      </div>
+
+      <!-- Right: Three pillars -->
+      <div style="display:flex; flex-direction:column; gap:0; padding-top:8px;">
+        <div style="padding:28px 0; border-bottom:1px solid rgba(240,239,235,0.08);">
+          <div style="display:flex; align-items:center; gap:12px; margin-bottom:10px;">
+            <span style="font-family:'Bebas Neue',sans-serif; font-size:13px; color:#ff4500; letter-spacing:0.12em;">01</span>
+            <span style="font-family:'Fraunces',serif; font-style:italic; font-weight:700; font-size:18px; color:#f0efeb;">Strategy First</span>
+          </div>
+          <p style="font-size:14px; color:rgba(240,239,235,0.45); line-height:1.6; padding-left:28px;">We start with your business goals, not design trends. What do you want customers to do?</p>
+        </div>
+        <div style="padding:28px 0; border-bottom:1px solid rgba(240,239,235,0.08);">
+          <div style="display:flex; align-items:center; gap:12px; margin-bottom:10px;">
+            <span style="font-family:'Bebas Neue',sans-serif; font-size:13px; color:#ff4500; letter-spacing:0.12em;">02</span>
+            <span style="font-family:'Fraunces',serif; font-style:italic; font-weight:700; font-size:18px; color:#f0efeb;">Built for Real Business</span>
+          </div>
+          <p style="font-size:14px; color:rgba(240,239,235,0.45); line-height:1.6; padding-left:28px;">No overengineered features. Fast, secure, and built to scale with your growth.</p>
+        </div>
+        <div style="padding:28px 0;">
+          <div style="display:flex; align-items:center; gap:12px; margin-bottom:10px;">
+            <span style="font-family:'Bebas Neue',sans-serif; font-size:13px; color:#ff4500; letter-spacing:0.12em;">03</span>
+            <span style="font-family:'Fraunces',serif; font-style:italic; font-weight:700; font-size:18px; color:#f0efeb;">Local Focus</span>
+          </div>
+          <p style="font-size:14px; color:rgba(240,239,235,0.45); line-height:1.6; padding-left:28px;">We're in Mesa. We get the local market and we're invested in your success.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════ SERVICES ═══════════════════ -->
+<section id="services" style="padding:100px 40px; border-top:1px solid rgba(240,239,235,0.08);">
+  <div style="max-width:1200px; margin:0 auto;">
+
+    <!-- Label row -->
+    <div style="display:flex; align-items:baseline; justify-content:space-between; margin-bottom:64px;">
+      <div>
+        <div class="section-label" style="margin-bottom:16px;">Packages</div>
+        <h2 style="font-family:'Fraunces',serif; font-style:italic; font-weight:900; font-size:clamp(32px,4vw,54px); color:#f0efeb; line-height:1.05;">
+          Choose Your Growth Plan
+        </h2>
+      </div>
+      <p style="font-size:14px; color:rgba(240,239,235,0.4); max-width:260px; text-align:right; line-height:1.6;">
+        Transparent pricing. No hidden fees. Pick the package that fits your needs.
+      </p>
+    </div>
+
+    <!-- 3-column packages -->
+    <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:rgba(240,239,235,0.08);">
+
+      <!-- Get Online -->
+      <div class="pkg-card">
+        <div class="section-label" style="margin-bottom:20px; color:rgba(240,239,235,0.3);">Starter</div>
+        <div style="font-family:'Fraunces',serif; font-style:italic; font-weight:900; font-size:26px; color:#f0efeb; margin-bottom:4px;">Get Online</div>
+        <div style="font-family:'Bebas Neue',sans-serif; font-size:44px; color:#e8b84b; line-height:1.1; margin:16px 0 4px;">$300–500</div>
+        <div style="font-size:12px; color:rgba(240,239,235,0.35); margin-bottom:8px; text-transform:uppercase; letter-spacing:0.1em;">One-time · ~1 week</div>
+        <p style="font-size:13px; color:rgba(240,239,235,0.4); margin-bottom:28px; line-height:1.6;">Perfect for getting started with a professional web presence.</p>
+        <hr style="border:none; border-top:1px solid rgba(240,239,235,0.08); margin-bottom:24px;">
+        <ul style="list-style:none; display:flex; flex-direction:column; gap:10px; margin-bottom:32px;">
+          <li style="font-size:13px; color:rgba(240,239,235,0.6); display:flex; gap:10px;"><span style="color:#ff4500;">✓</span>5-page responsive website</li>
+          <li style="font-size:13px; color:rgba(240,239,235,0.6); display:flex; gap:10px;"><span style="color:#ff4500;">✓</span>Basic SEO optimization</li>
+          <li style="font-size:13px; color:rgba(240,239,235,0.6); display:flex; gap:10px;"><span style="color:#ff4500;">✓</span>Contact form</li>
+          <li style="font-size:13px; color:rgba(240,239,235,0.6); display:flex; gap:10px;"><span style="color:#ff4500;">✓</span>Social media links</li>
+          <li style="font-size:13px; color:rgba(240,239,235,0.6); display:flex; gap:10px;"><span style="color:#ff4500;">✓</span>One round of revisions</li>
+        </ul>
+        <a href="#contact" class="btn-ghost" style="width:100%; text-align:center; display:block;">Get Started</a>
+      </div>
+
+      <!-- Grow Online — FEATURED -->
+      <div class="pkg-card featured" style="position:relative;">
+        <div style="position:absolute; top:20px; right:20px; background:#ff4500; color:#04040b; font-size:10px; font-weight:700; letter-spacing:0.12em; padding:4px 10px; text-transform:uppercase;">POPULAR</div>
+        <div class="section-label" style="margin-bottom:20px; color:#ff4500; opacity:0.8;">Growth</div>
+        <div style="font-family:'Fraunces',serif; font-style:italic; font-weight:900; font-size:26px; color:#f0efeb; margin-bottom:4px;">Grow Online</div>
+        <div style="font-family:'Bebas Neue',sans-serif; font-size:44px; color:#e8b84b; line-height:1.1; margin:16px 0 4px;">$700–1,200</div>
+        <div style="font-size:12px; color:rgba(240,239,235,0.35); margin-bottom:8px; text-transform:uppercase; letter-spacing:0.1em;">One-time · 2–3 weeks</div>
+        <p style="font-size:13px; color:rgba(240,239,235,0.4); margin-bottom:28px; line-height:1.6;">Our most popular package. Everything you need to compete.</p>
+        <hr style="border:none; border-top:1px solid rgba(240,239,235,0.08); margin-bottom:24px;">
+        <ul style="list-style:none; display:flex; flex-direction:column; gap:10px; margin-bottom:32px;">
+          <li style="font-size:13px; color:rgba(240,239,235,0.6); display:flex; gap:10px;"><span style="color:#ff4500;">✓</span>10+ page responsive website</li>
+          <li style="font-size:13px; color:rgba(240,239,235,0.6); display:flex; gap:10px;"><span style="color:#ff4500;">✓</span>Advanced SEO &amp; local SEO</li>
+          <li style="font-size:13px; color:rgba(240,239,235,0.6); display:flex; gap:10px;"><span style="color:#ff4500;">✓</span>Contact forms &amp; lead capture</li>
+          <li style="font-size:13px; color:rgba(240,239,235,0.6); display:flex; gap:10px;"><span style="color:#ff4500;">✓</span>Blog integration</li>
+          <li style="font-size:13px; color:rgba(240,239,235,0.6); display:flex; gap:10px;"><span style="color:#ff4500;">✓</span>Google Maps integration</li>
+          <li style="font-size:13px; color:rgba(240,239,235,0.6); display:flex; gap:10px;"><span style="color:#ff4500;">✓</span>Analytics setup</li>
+          <li style="font-size:13px; color:rgba(240,239,235,0.6); display:flex; gap:10px;"><span style="color:#ff4500;">✓</span>Two rounds of revisions</li>
+        </ul>
+        <a href="#contact" class="btn-primary" style="width:100%; text-align:center; display:block;">Get Started</a>
+      </div>
+
+      <!-- Stay Active -->
+      <div class="pkg-card">
+        <div class="section-label" style="margin-bottom:20px; color:rgba(240,239,235,0.3);">Retainer</div>
+        <div style="font-family:'Fraunces',serif; font-style:italic; font-weight:900; font-size:26px; color:#f0efeb; margin-bottom:4px;">Stay Active</div>
+        <div style="font-family:'Bebas Neue',sans-serif; font-size:44px; color:#e8b84b; line-height:1.1; margin:16px 0 4px;">$400–800</div>
+        <div style="font-size:12px; color:rgba(240,239,235,0.35); margin-bottom:8px; text-transform:uppercase; letter-spacing:0.1em;">Per month · Cancel anytime</div>
+        <p style="font-size:13px; color:rgba(240,239,235,0.4); margin-bottom:28px; line-height:1.6;">Keep your site fresh and your customers engaged month to month.</p>
+        <hr style="border:none; border-top:1px solid rgba(240,239,235,0.08); margin-bottom:24px;">
+        <ul style="list-style:none; display:flex; flex-direction:column; gap:10px; margin-bottom:32px;">
+          <li style="font-size:13px; color:rgba(240,239,235,0.6); display:flex; gap:10px;"><span style="color:#ff4500;">✓</span>Monthly content updates</li>
+          <li style="font-size:13px; color:rgba(240,239,235,0.6); display:flex; gap:10px;"><span style="color:#ff4500;">✓</span>Quarterly feature additions</li>
+          <li style="font-size:13px; color:rgba(240,239,235,0.6); display:flex; gap:10px;"><span style="color:#ff4500;">✓</span>Dedicated support</li>
+          <li style="font-size:13px; color:rgba(240,239,235,0.6); display:flex; gap:10px;"><span style="color:#ff4500;">✓</span>Performance monitoring</li>
+          <li style="font-size:13px; color:rgba(240,239,235,0.6); display:flex; gap:10px;"><span style="color:#ff4500;">✓</span>Security updates</li>
+        </ul>
+        <a href="#contact" class="btn-ghost" style="width:100%; text-align:center; display:block;">Get Started</a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════ PROCESS ═══════════════════ -->
+<section id="process" style="padding:100px 40px; border-top:1px solid rgba(240,239,235,0.08);">
+  <div style="max-width:1200px; margin:0 auto;">
+
+    <!-- Label -->
+    <div style="display:flex; align-items:center; gap:16px; margin-bottom:64px;">
+      <span class="section-label">Process</span>
+      <hr class="section-rule" style="flex:1;" />
+    </div>
+
+    <h2 style="font-family:'Fraunces',serif; font-style:italic; font-weight:900; font-size:clamp(32px,4vw,54px); color:#f0efeb; line-height:1.05; margin-bottom:64px;">
+      How It Works
+    </h2>
+
+    <!-- 3 Steps -->
+    <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:rgba(240,239,235,0.08);">
+      <div style="padding:40px 32px; background:#04040b;">
+        <div class="step-num">01</div>
+        <div style="font-family:'Fraunces',serif; font-style:italic; font-weight:700; font-size:22px; color:#f0efeb; margin:12px 0 16px;">Discovery Call</div>
+        <p style="font-size:14px; color:rgba(240,239,235,0.45); line-height:1.7;">We learn about your business, goals, and customers. No jargon—just real conversation about what success looks like for you.</p>
+      </div>
+      <div style="padding:40px 32px; background:#04040b; position:relative;">
+        <div style="position:absolute; top:0; left:0; right:0; height:2px; background:linear-gradient(90deg, #ff4500, transparent);"></div>
+        <div class="step-num">02</div>
+        <div style="font-family:'Fraunces',serif; font-style:italic; font-weight:700; font-size:22px; color:#f0efeb; margin:12px 0 16px;">Design &amp; Build</div>
+        <p style="font-size:14px; color:rgba(240,239,235,0.45); line-height:1.7;">We design and develop a site optimized for conversions. You get to review and approve every step of the way.</p>
+      </div>
+      <div style="padding:40px 32px; background:#04040b;">
+        <div class="step-num">03</div>
+        <div style="font-family:'Fraunces',serif; font-style:italic; font-weight:700; font-size:22px; color:#f0efeb; margin:12px 0 16px;">Launch &amp; Support</div>
+        <p style="font-size:14px; color:rgba(240,239,235,0.45); line-height:1.7;">We launch your site and make sure it performs. You get ongoing support to keep things running smoothly.</p>
+      </div>
+    </div>
+
+    <!-- Process CTA -->
+    <div style="margin-top:60px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:24px;">
+      <p style="font-size:15px; color:rgba(240,239,235,0.45); font-style:italic;">Ready to get started? Let's talk about your project.</p>
+      <a href="#contact" class="btn-primary">Schedule Your Call</a>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════ CONTACT ═══════════════════ -->
+<section id="contact" style="padding:100px 40px; border-top:1px solid rgba(240,239,235,0.08);">
+  <div style="max-width:1200px; margin:0 auto;">
+
+    <!-- Label -->
+    <div style="display:flex; align-items:center; gap:16px; margin-bottom:64px;">
+      <span class="section-label">Contact</span>
+      <hr class="section-rule" style="flex:1;" />
+    </div>
+
+    <!-- Two-column layout -->
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:80px; align-items:start;">
+
+      <!-- Left -->
+      <div>
+        <h2 style="font-family:'Fraunces',serif; font-style:italic; font-weight:900; font-size:clamp(36px,4.5vw,62px); color:#f0efeb; line-height:1.0; margin-bottom:24px;">
+          Let's build<br/>something.
+        </h2>
+        <p style="font-size:15px; color:rgba(240,239,235,0.45); line-height:1.7; margin-bottom:48px; max-width:360px;">
+          Ready to take your online presence to the next level? Fill out the form or reach out directly.
+        </p>
+
+        <!-- Contact info -->
+        <div style="display:flex; flex-direction:column; gap:0;">
+          <a href="mailto:akvantage@outlook.com" style="display:flex; align-items:center; gap:16px; padding:20px 0; border-bottom:1px solid rgba(240,239,235,0.08); text-decoration:none; color:#f0efeb; transition:color .2s;" onmouseover="this.style.color='#ff4500'" onmouseout="this.style.color='#f0efeb'">
+            <span style="font-size:11px; letter-spacing:0.14em; text-transform:uppercase; color:rgba(240,239,235,0.35); min-width:60px; font-weight:600;">Email</span>
+            <span style="font-size:15px;">akvantage@outlook.com</span>
+          </a>
+          <a href="tel:+14256919005" style="display:flex; align-items:center; gap:16px; padding:20px 0; border-bottom:1px solid rgba(240,239,235,0.08); text-decoration:none; color:#f0efeb;" onmouseover="this.style.color='#ff4500'" onmouseout="this.style.color='#f0efeb'">
+            <span style="font-size:11px; letter-spacing:0.14em; text-transform:uppercase; color:rgba(240,239,235,0.35); min-width:60px; font-weight:600;">Phone</span>
+            <span style="font-size:15px;">(425) 691-9005</span>
+          </a>
+          <div style="display:flex; align-items:center; gap:16px; padding:20px 0;">
+            <span style="font-size:11px; letter-spacing:0.14em; text-transform:uppercase; color:rgba(240,239,235,0.35); min-width:60px; font-weight:600;">Hours</span>
+            <span style="font-size:15px; color:rgba(240,239,235,0.6);">Sat &amp; Sun · 9am–5pm MST</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: Form -->
+      <form style="display:flex; flex-direction:column; gap:16px;">
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
+          <div>
+            <label style="font-size:11px; color:rgba(240,239,235,0.35); letter-spacing:0.12em; text-transform:uppercase; display:block; margin-bottom:8px;">Your Name</label>
+            <input type="text" placeholder="John Smith" style="width:100%; background:rgba(240,239,235,0.04); border:1px solid rgba(240,239,235,0.12); padding:12px 16px; color:#f0efeb; font-family:'Outfit',sans-serif; font-size:14px; outline:none; border-radius:2px;" onfocus="this.style.borderColor='#ff4500'" onblur="this.style.borderColor='rgba(240,239,235,0.12)'" />
+          </div>
+          <div>
+            <label style="font-size:11px; color:rgba(240,239,235,0.35); letter-spacing:0.12em; text-transform:uppercase; display:block; margin-bottom:8px;">Email</label>
+            <input type="email" placeholder="you@email.com" style="width:100%; background:rgba(240,239,235,0.04); border:1px solid rgba(240,239,235,0.12); padding:12px 16px; color:#f0efeb; font-family:'Outfit',sans-serif; font-size:14px; outline:none; border-radius:2px;" onfocus="this.style.borderColor='#ff4500'" onblur="this.style.borderColor='rgba(240,239,235,0.12)'" />
+          </div>
+        </div>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
+          <div>
+            <label style="font-size:11px; color:rgba(240,239,235,0.35); letter-spacing:0.12em; text-transform:uppercase; display:block; margin-bottom:8px;">Phone</label>
+            <input type="tel" placeholder="(480) 555-0000" style="width:100%; background:rgba(240,239,235,0.04); border:1px solid rgba(240,239,235,0.12); padding:12px 16px; color:#f0efeb; font-family:'Outfit',sans-serif; font-size:14px; outline:none; border-radius:2px;" onfocus="this.style.borderColor='#ff4500'" onblur="this.style.borderColor='rgba(240,239,235,0.12)'" />
+          </div>
+          <div>
+            <label style="font-size:11px; color:rgba(240,239,235,0.35); letter-spacing:0.12em; text-transform:uppercase; display:block; margin-bottom:8px;">Business Name</label>
+            <input type="text" placeholder="Your Business" style="width:100%; background:rgba(240,239,235,0.04); border:1px solid rgba(240,239,235,0.12); padding:12px 16px; color:#f0efeb; font-family:'Outfit',sans-serif; font-size:14px; outline:none; border-radius:2px;" onfocus="this.style.borderColor='#ff4500'" onblur="this.style.borderColor='rgba(240,239,235,0.12)'" />
+          </div>
+        </div>
+        <div>
+          <label style="font-size:11px; color:rgba(240,239,235,0.35); letter-spacing:0.12em; text-transform:uppercase; display:block; margin-bottom:8px;">Tell Us About Your Project</label>
+          <textarea rows="5" placeholder="What does your business do? What are you looking for?" style="width:100%; background:rgba(240,239,235,0.04); border:1px solid rgba(240,239,235,0.12); padding:12px 16px; color:#f0efeb; font-family:'Outfit',sans-serif; font-size:14px; outline:none; resize:vertical; border-radius:2px;" onfocus="this.style.borderColor='#ff4500'" onblur="this.style.borderColor='rgba(240,239,235,0.12)'"></textarea>
+        </div>
+        <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:16px;">
+          <p style="font-size:12px; color:rgba(240,239,235,0.3);">We typically respond within 24 hours.</p>
+          <button type="submit" class="btn-primary">Send Message</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════ FOOTER ═══════════════════ -->
+<footer style="border-top:1px solid rgba(240,239,235,0.08); padding:32px 40px;">
+  <div style="max-width:1200px; margin:0 auto; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:24px;">
+
+    <a href="#" style="font-family:'Fraunces',serif; font-style:italic; font-weight:900; font-size:18px; color:#f0efeb; text-decoration:none;">
+      AKVantage<span style="color:#ff4500;">.</span>
+    </a>
+
+    <div style="display:flex; gap:28px; align-items:center;">
+      <a href="#about" style="font-size:12px; color:rgba(240,239,235,0.4); text-decoration:none; text-transform:uppercase; letter-spacing:0.1em;" onmouseover="this.style.color='#f0efeb'" onmouseout="this.style.color='rgba(240,239,235,0.4)'">About</a>
+      <a href="#services" style="font-size:12px; color:rgba(240,239,235,0.4); text-decoration:none; text-transform:uppercase; letter-spacing:0.1em;" onmouseover="this.style.color='#f0efeb'" onmouseout="this.style.color='rgba(240,239,235,0.4)'">Services</a>
+      <a href="#work" style="font-size:12px; color:rgba(240,239,235,0.4); text-decoration:none; text-transform:uppercase; letter-spacing:0.1em;" onmouseover="this.style.color='#f0efeb'" onmouseout="this.style.color='rgba(240,239,235,0.4)'">Gallery</a>
+      <a href="#process" style="font-size:12px; color:rgba(240,239,235,0.4); text-decoration:none; text-transform:uppercase; letter-spacing:0.1em;" onmouseover="this.style.color='#f0efeb'" onmouseout="this.style.color='rgba(240,239,235,0.4)'">Process</a>
+      <a href="#contact" style="font-size:12px; color:rgba(240,239,235,0.4); text-decoration:none; text-transform:uppercase; letter-spacing:0.1em;" onmouseover="this.style.color='#f0efeb'" onmouseout="this.style.color='rgba(240,239,235,0.4)'">Contact</a>
+    </div>
+
+    <div style="display:flex; align-items:center; gap:24px;">
+      <a href="mailto:akvantage@outlook.com" style="font-size:12px; color:rgba(240,239,235,0.4); text-decoration:none;" onmouseover="this.style.color='#ff4500'" onmouseout="this.style.color='rgba(240,239,235,0.4)'">akvantage@outlook.com</a>
+      <span style="font-size:12px; color:rgba(240,239,235,0.25); letter-spacing:0.06em;">© 2026 AKVantage · Mesa, AZ</span>
+    </div>
+
+  </div>
+</footer>
+
+</body>
+</html>

@@ -3,76 +3,54 @@ import ContactForm from "./ContactForm";
 
 export default function ContactCTA() {
   return (
-    <section id="contact" className="py-20 sm:py-32 px-4 sm:px-6 lg:px-8 bg-ink-2 scroll-mt-20">
-      <div className="max-w-6xl mx-auto">
-        {/* Section Header */}
-        <FadeIn className="text-center mb-16">
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-fraunces italic font-black text-cream mb-4">
-            Let's build something.
-          </h2>
-          <p className="text-lg text-mid max-w-2xl mx-auto">
-            Ready to take your online presence to the next level? Fill out the
-            form below or reach out directly.
-          </p>
+    <section id="contact" className="py-24 sm:py-32 px-6 sm:px-10 lg:px-16 border-t border-cream/[0.08] scroll-mt-20">
+      <div className="max-w-screen-xl mx-auto">
+
+        <FadeIn>
+          <div className="flex items-center gap-4 mb-16">
+            <span className="text-[11px] font-semibold tracking-[0.18em] uppercase text-cream/35 font-outfit">Contact</span>
+            <div className="flex-1 border-t border-cream/[0.08]" />
+          </div>
         </FadeIn>
 
-        <div className="grid md:grid-cols-2 gap-12 lg:gap-20 items-center">
-          {/* Left Column - Direct CTAs */}
-          <FadeIn>
-            <div className="space-y-8">
-              <h3 className="font-fraunces italic font-black text-xl text-cream">
-                Get in Touch
-              </h3>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-start">
 
-              {/* Email CTA */}
+          {/* Left — heading + contact info */}
+          <FadeIn>
+            <h2
+              className="font-fraunces italic font-black text-cream leading-none mb-6"
+              style={{ fontSize: "clamp(36px, 4.5vw, 64px)" }}
+            >
+              Let&apos;s build<br />something.
+            </h2>
+            <p className="text-[15px] text-mid font-light leading-relaxed mb-12 max-w-sm font-outfit">
+              Ready to take your online presence to the next level? Fill out the form or reach out directly.
+            </p>
+
+            {/* Contact rows */}
+            <div className="flex flex-col">
               <a
                 href="mailto:akvantage@outlook.com"
-                className="flex items-center gap-4 p-6 bg-ink-3 rounded-lg border border-border-2 hover:border-fire/50 transition-all group"
+                className="flex items-center gap-5 py-5 border-b border-cream/[0.08] group"
               >
-                <div className="w-12 h-12 bg-fire/20 rounded-lg flex items-center justify-center flex-shrink-0 group-hover:bg-fire/30 transition-colors">
-                  <span className="text-xl">✉️</span>
-                </div>
-                <div>
-                  <div className="text-sm text-muted">Email</div>
-                  <div className="text-cream font-semibold">
-                    akvantage@outlook.com
-                  </div>
-                </div>
+                <span className="text-[11px] font-semibold tracking-[0.14em] uppercase text-cream/30 w-14 font-outfit">Email</span>
+                <span className="text-[15px] text-cream group-hover:text-fire transition-colors font-outfit">akvantage@outlook.com</span>
               </a>
-
-              {/* Phone CTA */}
               <a
                 href="tel:+14256919005"
-                className="flex items-center gap-4 p-6 bg-ink-3 rounded-lg border border-border-2 hover:border-fire/50 transition-all group"
+                className="flex items-center gap-5 py-5 border-b border-cream/[0.08] group"
               >
-                <div className="w-12 h-12 bg-fire/20 rounded-lg flex items-center justify-center flex-shrink-0 group-hover:bg-fire/30 transition-colors">
-                  <span className="text-xl">📱</span>
-                </div>
-                <div>
-                  <div className="text-sm text-muted">Phone</div>
-                  <div className="text-cream font-semibold">(425) 691-9005</div>
-                </div>
+                <span className="text-[11px] font-semibold tracking-[0.14em] uppercase text-cream/30 w-14 font-outfit">Phone</span>
+                <span className="text-[15px] text-cream group-hover:text-fire transition-colors font-outfit">(425) 691-9005</span>
               </a>
-
-              {/* Hours */}
-              <div className="p-6 bg-ink-3 rounded-lg border border-border-2">
-                <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 bg-fire/20 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <span className="text-xl">🕐</span>
-                  </div>
-                  <div>
-                    <div className="text-sm text-muted mb-1">Hours</div>
-                    <div className="text-cream font-semibold text-sm">
-                      Saturday & Sunday
-                    </div>
-                    <div className="text-muted text-sm">9am–5pm MST</div>
-                  </div>
-                </div>
+              <div className="flex items-center gap-5 py-5">
+                <span className="text-[11px] font-semibold tracking-[0.14em] uppercase text-cream/30 w-14 font-outfit">Hours</span>
+                <span className="text-[15px] text-mid font-outfit">Sat &amp; Sun · 9am–5pm MST</span>
               </div>
             </div>
           </FadeIn>
 
-          {/* Right Column - Contact Form */}
+          {/* Right — form */}
           <FadeIn>
             <ContactForm />
           </FadeIn>

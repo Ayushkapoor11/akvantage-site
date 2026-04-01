@@ -84,7 +84,7 @@ function HeroGeometric({
       {/* Subtle fire glow bg */}
       <div className="absolute inset-0 bg-gradient-to-br from-fire/[0.04] via-transparent to-fire/[0.03] blur-3xl" />
 
-      {/* Floating shapes */}
+      {/* Floating shapes — brought inward on large screens to stay close to content */}
       <div className="absolute inset-0 overflow-hidden">
         <ElegantShape
           delay={0.3}
@@ -92,7 +92,7 @@ function HeroGeometric({
           height={140}
           rotate={12}
           gradient="from-fire/[0.12]"
-          className="left-[-10%] md:left-[-5%] top-[15%] md:top-[20%]"
+          className="left-[-8%] lg:left-[2%] xl:left-[5%] top-[15%] md:top-[20%]"
         />
         <ElegantShape
           delay={0.5}
@@ -100,7 +100,7 @@ function HeroGeometric({
           height={120}
           rotate={-15}
           gradient="from-gold/[0.08]"
-          className="right-[-5%] md:right-[0%] top-[70%] md:top-[75%]"
+          className="right-[-4%] lg:right-[3%] xl:right-[5%] top-[70%] md:top-[75%]"
         />
         <ElegantShape
           delay={0.4}
@@ -108,7 +108,7 @@ function HeroGeometric({
           height={80}
           rotate={-8}
           gradient="from-fire/[0.10]"
-          className="left-[5%] md:left-[10%] bottom-[5%] md:bottom-[10%]"
+          className="left-[5%] lg:left-[8%] bottom-[5%] md:bottom-[10%]"
         />
         <ElegantShape
           delay={0.6}
@@ -116,7 +116,7 @@ function HeroGeometric({
           height={60}
           rotate={20}
           gradient="from-gold/[0.06]"
-          className="right-[15%] md:right-[20%] top-[10%] md:top-[15%]"
+          className="right-[10%] lg:right-[14%] xl:right-[18%] top-[10%] md:top-[15%]"
         />
         <ElegantShape
           delay={0.7}
@@ -124,13 +124,13 @@ function HeroGeometric({
           height={40}
           rotate={-25}
           gradient="from-fire/[0.08]"
-          className="left-[20%] md:left-[25%] top-[5%] md:top-[10%]"
+          className="left-[15%] lg:left-[20%] xl:left-[22%] top-[5%] md:top-[10%]"
         />
       </div>
 
-      {/* Content */}
+      {/* Content — wider on desktop so it fills the viewport better */}
       <div className="relative z-10 container mx-auto px-4 md:px-6">
-        <div className="max-w-3xl mx-auto text-center">
+        <div className="max-w-3xl lg:max-w-4xl xl:max-w-5xl mx-auto text-center">
           {/* Badge */}
           <motion.div
             custom={0}
@@ -145,14 +145,14 @@ function HeroGeometric({
             </span>
           </motion.div>
 
-          {/* Headline */}
+          {/* Headline — gradual scale so desktop isn't over-sized */}
           <motion.div
             custom={1}
             variants={fadeUpVariants}
             initial="hidden"
             animate="visible"
           >
-            <h1 className="text-5xl sm:text-6xl md:text-8xl font-fraunces font-black italic mb-6 md:mb-8 tracking-tight leading-tight">
+            <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-fraunces font-black italic mb-6 md:mb-8 tracking-tight leading-tight">
               <span className="bg-clip-text text-transparent bg-gradient-to-b from-cream to-cream/80">
                 {title1}
               </span>

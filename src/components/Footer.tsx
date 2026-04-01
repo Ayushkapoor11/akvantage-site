@@ -1,115 +1,47 @@
 import Link from "next/link";
 
+const links = [
+  { href: "#about", label: "About" },
+  { href: "#services", label: "Services" },
+  { href: "#work", label: "Gallery" },
+  { href: "#process", label: "Process" },
+  { href: "#contact", label: "Contact" },
+];
+
 export default function Footer() {
   return (
-    <footer className="bg-ink border-t border-border py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-6xl mx-auto">
-        <div className="grid md:grid-cols-3 gap-8 mb-12">
-          {/* Column 1 - Brand */}
-          <div>
-            <div className="flex items-center gap-2 mb-4">
-              <span className="text-2xl font-bold">
-                <span className="text-cream">AKVantage</span>
-                <span className="text-fire font-fraunces italic">.</span>
-              </span>
-            </div>
-            <p className="text-muted text-sm">
-              Web design and development for local businesses that want to
-              thrive online.
-            </p>
-          </div>
+    <footer className="border-t border-cream/[0.08] px-6 sm:px-10 lg:px-16 py-8">
+      <div className="max-w-screen-xl mx-auto flex flex-wrap items-center justify-between gap-6">
 
-          {/* Column 2 - Quick Links */}
-          <div>
-            <h4 className="font-fraunces italic font-black text-cream text-lg mb-4">Quick Links</h4>
-            <ul className="space-y-2">
-              <li>
-                <Link
-                  href="#about"
-                  className="text-muted hover:text-fire transition-colors text-sm"
-                >
-                  About
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="#services"
-                  className="text-muted hover:text-fire transition-colors text-sm"
-                >
-                  Services
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="#how"
-                  className="text-muted hover:text-fire transition-colors text-sm"
-                >
-                  How It Works
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="#contact"
-                  className="text-muted hover:text-fire transition-colors text-sm"
-                >
-                  Contact
-                </Link>
-              </li>
-            </ul>
-          </div>
+        {/* Logo */}
+        <Link href="/" className="font-fraunces italic font-black text-lg text-cream tracking-tight">
+          AKVantage<span className="text-fire">.</span>
+        </Link>
 
-          {/* Column 3 - Contact */}
-          <div>
-            <h4 className="font-fraunces italic font-black text-cream text-lg mb-4">Get in Touch</h4>
-            <ul className="space-y-2">
-              <li>
-                <a
-                  href="mailto:akvantage@outlook.com"
-                  className="text-muted hover:text-fire transition-colors text-sm"
-                >
-                  akvantage@outlook.com
-                </a>
-              </li>
-              <li>
-                <a
-                  href="tel:+14256919005"
-                  className="text-muted hover:text-fire transition-colors text-sm"
-                >
-                  (425) 691-9005
-                </a>
-              </li>
-              <li className="text-muted text-sm">
-                Mesa, Arizona
-              </li>
-            </ul>
-          </div>
+        {/* Nav links */}
+        <div className="flex flex-wrap gap-6">
+          {links.map((l) => (
+            <Link
+              key={l.href}
+              href={l.href}
+              className="text-[11px] text-cream/35 hover:text-cream transition-colors tracking-widest uppercase font-outfit"
+            >
+              {l.label}
+            </Link>
+          ))}
         </div>
 
-        {/* Bottom */}
-        <div className="border-t border-border pt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p className="text-muted text-sm">
+        {/* Right — email + copyright */}
+        <div className="flex items-center gap-6 flex-wrap">
+          <a
+            href="mailto:akvantage@outlook.com"
+            className="text-[12px] text-cream/35 hover:text-fire transition-colors font-outfit"
+          >
+            akvantage@outlook.com
+          </a>
+          <span className="text-[11px] text-cream/20 tracking-wide font-outfit">
             © 2026 AKVantage · Mesa, AZ
-          </p>
-          <div className="flex items-center gap-6">
-            <a
-              href="mailto:akvantage@outlook.com"
-              className="text-muted hover:text-fire transition-colors text-sm"
-            >
-              Email
-            </a>
-            <a
-              href="tel:+14256919005"
-              className="text-muted hover:text-fire transition-colors text-sm"
-            >
-              Phone
-            </a>
-            <a
-              href="#gallery"
-              className="text-muted hover:text-fire transition-colors text-sm"
-            >
-              Gallery
-            </a>
-          </div>
+          </span>
         </div>
       </div>
     </footer>
