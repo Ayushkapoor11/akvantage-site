@@ -3,7 +3,7 @@ import ContactForm from "./ContactForm";
 
 export default function ContactCTA() {
   return (
-    <section id="contact" className="py-20 sm:py-32 px-4 sm:px-6 lg:px-8 bg-ink-2">
+    <section id="contact" className="py-20 sm:py-32 px-4 sm:px-6 lg:px-8 bg-ink-2 scroll-mt-20">
       <div className="max-w-6xl mx-auto">
         {/* Section Header */}
         <FadeIn className="text-center mb-16">

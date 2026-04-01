@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Golden Phoenix — Authentic Chinese Cuisine</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  <style>
+    :root{--bg:#0A0602;--red:#8B0000;--gold:#C8971A;--gold2:#E8B84B;--cream:#F5EDD5;--muted:#9A8870;--card:#120D06;}
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+    body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--cream);overflow-x:hidden;}
+    a{text-decoration:none;}
+
+    nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:18px 52px;background:rgba(10,6,2,.95);backdrop-filter:blur(12px);border-bottom:1px solid rgba(200,151,26,.2);}
+    .logo{font-family:'Noto Serif SC',serif;font-size:22px;font-weight:700;color:var(--gold);letter-spacing:1px;}
+    .logo span{color:var(--cream);font-size:12px;display:block;font-family:'Inter',sans-serif;font-weight:400;letter-spacing:2px;text-transform:uppercase;margin-top:1px;}
+    .nav-links{display:flex;gap:32px;list-style:none;align-items:center;}
+    .nav-links a{color:var(--muted);font-size:13px;letter-spacing:0.5px;transition:color .2s;}
+    .nav-links a:hover{color:var(--gold);}
+    .nav-reserve{background:var(--red);color:var(--cream)!important;padding:9px 22px;border-radius:4px;font-size:13px;font-weight:600!important;border:1px solid rgba(200,151,26,.3);transition:all .2s;}
+    .nav-reserve:hover{background:#6B0000!important;border-color:var(--gold)!important;}
+
+    .hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:140px 52px 100px;position:relative;overflow:hidden;}
+    .hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 30%,rgba(139,0,0,.4) 0%,transparent 60%),radial-gradient(ellipse at 80% 80%,rgba(200,151,26,.1) 0%,transparent 50%);pointer-events:none;}
+    .hero-ornament{font-size:80px;margin-bottom:24px;opacity:.6;position:relative;}
+    .hero-eyebrow{font-size:11px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-bottom:20px;position:relative;}
+    .hero h1{font-family:'Noto Serif SC',serif;font-size:clamp(52px,7vw,90px);font-weight:700;line-height:1;color:var(--cream);margin-bottom:12px;position:relative;}
+    .hero-sub-zh{font-family:'Noto Serif SC',serif;font-size:clamp(18px,2.5vw,28px);color:var(--gold);letter-spacing:4px;margin-bottom:28px;position:relative;}
+    .hero-desc{font-size:16px;color:var(--muted);line-height:1.75;max-width:520px;margin:0 auto 40px;position:relative;}
+    .hero-btns{display:flex;gap:16px;justify-content:center;position:relative;}
+    .btn-primary{background:var(--red);color:var(--cream);padding:14px 36px;border-radius:4px;font-size:14px;font-weight:600;letter-spacing:0.5px;border:1px solid rgba(200,151,26,.3);transition:all .2s;box-shadow:0 4px 20px rgba(139,0,0,.4);}
+    .btn-primary:hover{background:#6B0000;border-color:var(--gold);}
+    .btn-gold{border:1px solid var(--gold);color:var(--gold);padding:14px 36px;border-radius:4px;font-size:14px;font-weight:600;letter-spacing:0.5px;transition:all .2s;}
+    .btn-gold:hover{background:rgba(200,151,26,.1);}
+    .hero-divider{display:flex;align-items:center;gap:16px;color:var(--gold);font-size:20px;margin:60px 0 0;opacity:.4;position:relative;}
+    .hero-divider::before,.hero-divider::after{content:'';flex:1;height:1px;background:linear-gradient(to right,transparent,rgba(200,151,26,.4));}
+
+    .menu-preview{padding:100px 52px;background:var(--card);}
+    .section-eyebrow{font-size:11px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-bottom:12px;}
+    .section-title{font-family:'Noto Serif SC',serif;font-size:clamp(36px,4.5vw,54px);font-weight:700;color:var(--cream);margin-bottom:48px;}
+    .menu-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;}
+    .menu-card{background:var(--bg);border:1px solid rgba(200,151,26,.12);border-radius:12px;overflow:hidden;transition:all .25s;}
+    .menu-card:hover{border-color:rgba(200,151,26,.4);transform:translateY(-4px);}
+    .menu-thumb{height:160px;display:flex;align-items:center;justify-content:center;font-size:64px;background:linear-gradient(135deg,rgba(139,0,0,.3),rgba(200,151,26,.1));}
+    .menu-info{padding:20px;}
+    .menu-category{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:6px;}
+    .menu-name{font-family:'Noto Serif SC',serif;font-size:18px;color:var(--cream);margin-bottom:8px;}
+    .menu-desc{font-size:12px;color:var(--muted);line-height:1.6;}
+    .menu-price{font-size:16px;font-weight:600;color:var(--gold);margin-top:12px;}
+
+    .experience{padding:100px 52px;}
+    .exp-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;}
+    .exp-visual{position:relative;}
+    .exp-main-box{background:linear-gradient(135deg,var(--red),#5A0000);border-radius:16px;height:400px;display:flex;align-items:center;justify-content:center;font-size:100px;border:1px solid rgba(200,151,26,.3);}
+    .exp-badge{position:absolute;bottom:-20px;right:-20px;background:var(--gold);color:var(--bg);padding:16px 20px;border-radius:12px;text-align:center;}
+    .exp-badge-num{font-family:'Noto Serif SC',serif;font-size:28px;font-weight:700;}
+    .exp-badge-text{font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase;margin-top:2px;}
+    .exp-right .section-title{margin-bottom:20px;}
+    .exp-right p{font-size:15px;color:var(--muted);line-height:1.85;margin-bottom:24px;}
+    .hours-box{background:var(--card);border:1px solid rgba(200,151,26,.15);border-radius:12px;padding:24px;}
+    .hours-box h4{font-family:'Noto Serif SC',serif;font-size:16px;color:var(--gold);margin-bottom:16px;}
+    .hours-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.04);font-size:13px;}
+    .hours-row:last-child{border:none;}
+    .hours-row span:first-child{color:var(--muted);}
+    .hours-row span:last-child{color:var(--cream);font-weight:500;}
+
+    .cta{padding:100px 52px;text-align:center;background:linear-gradient(to bottom,var(--bg),#0F0800);position:relative;overflow:hidden;}
+    .cta-lanterns{font-size:40px;letter-spacing:20px;margin-bottom:24px;opacity:.3;}
+    .cta h2{font-family:'Noto Serif SC',serif;font-size:clamp(40px,5vw,64px);font-weight:700;color:var(--cream);margin-bottom:12px;}
+    .cta h2 span{color:var(--gold);}
+    .cta p{font-size:16px;color:var(--muted);margin-bottom:40px;}
+    .cta-btns{display:flex;gap:16px;justify-content:center;}
+
+    footer{background:#060402;padding:32px 52px;display:flex;justify-content:space-between;align-items:center;border-top:1px solid rgba(200,151,26,.1);}
+    footer p{font-size:13px;color:var(--muted);}
+    .footer-links{display:flex;gap:24px;}
+    .footer-links a{font-size:13px;color:var(--muted);transition:color .2s;}
+    .footer-links a:hover{color:var(--gold);}
+
+    .use-btn{position:fixed;bottom:24px;right:24px;z-index:999;background:var(--gold);color:var(--bg);padding:12px 22px;border-radius:4px;font-size:14px;font-weight:700;cursor:pointer;border:none;box-shadow:0 4px 24px rgba(200,151,26,.4);transition:all .2s;}
+    .use-btn:hover{transform:scale(1.05);background:var(--gold2);}
+    .back-btn{position:fixed;top:76px;left:20px;z-index:999;background:rgba(200,151,26,.15);backdrop-filter:blur(8px);color:var(--gold);padding:7px 14px;border-radius:4px;font-size:12px;border:1px solid rgba(200,151,26,.3);transition:all .2s;}
+    .back-btn:hover{background:rgba(200,151,26,.25);}
+
+    @media(max-width:768px){
+      nav{padding:16px 20px;}
+      .nav-links{display:none;}
+      .hero{padding:100px 20px 60px;}
+      .menu-preview,.experience,.cta{padding:64px 20px;}
+      .menu-grid,.exp-grid{grid-template-columns:1fr;}
+      .exp-grid{gap:40px;}
+      .exp-badge{position:static;margin-top:16px;display:inline-block;}
+      footer{flex-direction:column;gap:16px;text-align:center;padding:28px 20px;}
+    }
+  </style>
+</head>
+<body>
+
+<a href="../gallery.html" class="back-btn">← Gallery</a>
+
+<nav>
+  <div class="logo">金鳳凰<span>Golden Phoenix</span></div>
+  <ul class="nav-links">
+    <li><a href="#">Menu</a></li>
+    <li><a href="#">About</a></li>
+    <li><a href="#">Catering</a></li>
+    <li><a class="nav-reserve" href="#">Reserve a Table</a></li>
+  </ul>
+</nav>
+
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-ornament">🏮</div>
+  <div class="hero-eyebrow">Authentic Chinese Cuisine · Mesa, Arizona</div>
+  <h1>Golden Phoenix</h1>
+  <div class="hero-sub-zh">家的味道 · 正宗中国美食</div>
+  <p class="hero-desc">Every dish is a bridge between generations — recipes passed down from Sichuan and Cantonese kitchens, prepared with ingredients sourced fresh every morning.</p>
+  <div class="hero-btns">
+    <a class="btn-primary" href="#">Reserve a Table</a>
+    <a class="btn-gold" href="#">View Full Menu</a>
+  </div>
+  <div class="hero-divider">❧</div>
+</section>
+
+<section class="menu-preview">
+  <div class="section-eyebrow">Chef's Selection</div>
+  <div class="section-title">Signature Dishes</div>
+  <div class="menu-grid">
+    <div class="menu-card">
+      <div class="menu-thumb">🦆</div>
+      <div class="menu-info">
+        <div class="menu-category">Cantonese Classic</div>
+        <div class="menu-name">Peking Duck</div>
+        <div class="menu-desc">Whole roasted duck with crispy skin, hoisin sauce, scallions, and handmade pancakes.</div>
+        <div class="menu-price">$48 / whole · $28 / half</div>
+      </div>
+    </div>
+    <div class="menu-card">
+      <div class="menu-thumb">🥟</div>
+      <div class="menu-info">
+        <div class="menu-category">Dim Sum Favorite</div>
+        <div class="menu-name">Xiao Long Bao</div>
+        <div class="menu-desc">Soup dumplings hand-folded daily — pork and ginger in a silky wrapper with a molten broth center.</div>
+        <div class="menu-price">$14 / 6 pieces</div>
+      </div>
+    </div>
+    <div class="menu-card">
+      <div class="menu-thumb">🌶️</div>
+      <div class="menu-info">
+        <div class="menu-category">Sichuan Bold</div>
+        <div class="menu-name">Mapo Tofu</div>
+        <div class="menu-desc">Silken tofu in a fiery, numbing Sichuan peppercorn broth — our most-ordered dish since 1998.</div>
+        <div class="menu-price">$16</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="experience">
+  <div class="exp-grid">
+    <div class="exp-visual">
+      <div class="exp-main-box">🏮</div>
+      <div class="exp-badge">
+        <div class="exp-badge-num">26yr</div>
+        <div class="exp-badge-text">In Mesa</div>
+      </div>
+    </div>
+    <div class="exp-right">
+      <div class="section-eyebrow">Our Story</div>
+      <div class="section-title">Three Generations<br/>of Flavor</div>
+      <p>The Chen family opened Golden Phoenix in 1998 with one goal: cook for the community exactly the way grandmother taught. Nothing frozen. Nothing from a bag. Every sauce made in-house.</p>
+      <p>We've grown, but our kitchen hasn't changed. Come in and taste the difference.</p>
+      <div class="hours-box">
+        <h4>Hours & Location</h4>
+        <div class="hours-row"><span>Mon–Thu</span><span>11am – 9:30pm</span></div>
+        <div class="hours-row"><span>Fri–Sat</span><span>11am – 10:30pm</span></div>
+        <div class="hours-row"><span>Sunday</span><span>12pm – 9pm</span></div>
+        <div class="hours-row"><span>Address</span><span>2231 E Main St, Mesa AZ</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta">
+  <div class="cta-lanterns">🏮 🏮 🏮 🏮 🏮</div>
+  <h2>Join Us for <span>Dinner</span></h2>
+  <p>Walk-ins welcome · Reservations recommended on weekends</p>
+  <div class="cta-btns">
+    <a class="btn-primary" href="#">Reserve a Table</a>
+    <a class="btn-gold" href="#">Order Catering</a>
+  </div>
+</section>
+
+<footer>
+  <p>© 2026 Golden Phoenix · 2231 E Main St, Mesa AZ · (480) 555-0199</p>
+  <div class="footer-links">
+    <a href="#">Menu PDF</a>
+    <a href="#">Yelp</a>
+    <a href="#">Contact</a>
+  </div>
+</footer>
+
+<button class="use-btn" onclick="useDesign('Chinese Restaurant — Golden Phoenix Style')">✦ Use This Design</button>
+<script>
+function useDesign(template) {
+  const name = prompt("Your name?");
+  if (!name) return;
+  const biz = prompt("Your business name?");
+  if (!biz) return;
+  window.location.href = `mailto:akvantage@outlook.com?subject=Design Request: ${encodeURIComponent(template)}&body=Hi Ayush,%0A%0AMy name is ${encodeURIComponent(name)} and I run ${encodeURIComponent(biz)}.%0A%0AI'd love to use the "${encodeURIComponent(template)}" design. Please reach out!%0A%0AThanks,%0A${encodeURIComponent(name)}`;
+}
+</script>
+</body>
+</html>

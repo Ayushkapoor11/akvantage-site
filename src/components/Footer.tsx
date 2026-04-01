@@ -9,7 +9,7 @@ export default function Footer() {
           <div>
             <div className="flex items-center gap-2 mb-4">
               <span className="text-2xl font-bold">
-                <span className="text-cream">AK</span>
+                <span className="text-cream">AKVantage</span>
                 <span className="text-fire font-fraunces italic">.</span>
               </span>
             </div>

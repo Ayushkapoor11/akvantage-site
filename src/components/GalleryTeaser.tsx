@@ -5,7 +5,7 @@ export default function GalleryTeaser() {
   return (
     <section
       id="gallery"
-      className="py-20 sm:py-32 px-4 sm:px-6 lg:px-8 bg-ink-2 border-t border-border"
+      className="py-20 sm:py-32 px-4 sm:px-6 lg:px-8 bg-ink-2 border-t border-border scroll-mt-20"
     >
       <div className="max-w-4xl mx-auto text-center">
         <FadeIn>

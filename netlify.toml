@@ -1,0 +1,9 @@
+[build]
+  command = "npm run build"
+  publish = ".next"
+
+[[redirects]]
+  from = "https://www.akvantage.com/*"
+  to = "https://akvantage.com/:splat"
+  status = 301
+  force = true
